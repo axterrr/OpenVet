@@ -20,7 +20,7 @@ public class UserMerger implements BaseMerger<UserEntity, UserRequest> {
         ifNotNull(request.getFirstName(), entity::setFirstName);
         ifNotNull(request.getLastName(), entity::setLastName);
         ifNotNull(request.getRole(), entity::setRole);
-        ifNotNull(request.getPhone(), entity::setPhone);
+        ifNotNull(request.getPhone(), entity::setPhoneNumber);
         ifNotNull(request.getEmail(), entity::setEmail);
         ifNotNull(request.getPassword(), password -> entity.setPassword(passwordEncoder.encode(password)));
     }

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UserRepository extends BaseRepository<UserEntity, Long> {
     Optional<UserEntity> findByEmail(String email);
-    Optional<UserEntity> findByPhone(String phone);
-    boolean existsByPhone(String phone);
+    Optional<UserEntity> findByPhoneNumber(String phone);
+    boolean existsByPhoneNumber(String phone);
     boolean existsByEmail(String email);
 }

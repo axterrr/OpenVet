@@ -44,7 +44,7 @@ public class UserEntity implements Identifiable<Long> {
     private String lastName;
 
     @Column(nullable = false, unique = true, length = 40)
-    private String phone;
+    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, insertable = false, updatable = false)

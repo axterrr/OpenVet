@@ -57,7 +57,7 @@ public class UserController {
         if (entity == null) { return null; }
         return UserResponse.builder()
             .id(entity.getId())
-            .phone(entity.getPhone())
+            .phone(entity.getPhoneNumber())
             .email(entity.getEmail())
             .firstName(entity.getFirstName())
             .lastName(entity.getLastName())

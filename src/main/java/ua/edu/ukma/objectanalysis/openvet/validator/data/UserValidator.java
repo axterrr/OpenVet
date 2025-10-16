@@ -20,7 +20,7 @@ public class UserValidator extends BaseValidator<UserEntity, UserRequest> {
 
         validatePassword(request.getPassword());
 
-        if (userRepository.existsByPhone(request.getPhone())) {
+        if (userRepository.existsByPhoneNumber(request.getPhone())) {
             throw new ConflictException("User with such phone already exists");
         }
         if (request.getEmail() != null && userRepository.existsByEmail(request.getEmail())) {
@@ -37,7 +37,7 @@ public class UserValidator extends BaseValidator<UserEntity, UserRequest> {
         }
 
         if (request.getPhone() != null) {
-            userRepository.findByPhone(request.getPhone()).ifPresent(existing -> {
+            userRepository.findByPhoneNumber(request.getPhone()).ifPresent(existing -> {
                 if (!existing.getId().equals(entity.getId())) {
                     throw new ConflictException("User with such phone already exists");
                 }
