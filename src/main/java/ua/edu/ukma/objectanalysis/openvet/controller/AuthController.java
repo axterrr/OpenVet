@@ -21,13 +21,13 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("register")
-    public ResponseEntity<LoginResponse> registerOwner(@Valid @RequestBody UserRequest request) {
+    public ResponseEntity<LoginResponse> registerOwner(@RequestBody UserRequest request) {
         String token = authService.register(request);
         return new ResponseEntity<>(new LoginResponse(token), HttpStatus.CREATED);
     }
 
     @PostMapping("login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         String token = authService.login(request);
         return new ResponseEntity<>(new LoginResponse(token), HttpStatus.OK);
     }
