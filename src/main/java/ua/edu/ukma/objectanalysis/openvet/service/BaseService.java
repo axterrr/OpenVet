@@ -41,7 +41,7 @@ public abstract class BaseService<ENTITY extends Identifiable<ID>, REQUEST, ID> 
         permissionValidator.validateForCreate(request);
         validator.validateForCreate(request);
         ENTITY entity = newEntity();
-        merger.merge(entity, request);
+        merger.mergeCreate(entity, request);
         return repository.saveAndFlush(entity);
     }
 
@@ -49,7 +49,7 @@ public abstract class BaseService<ENTITY extends Identifiable<ID>, REQUEST, ID> 
         ENTITY entity = getById(id);
         permissionValidator.validateForUpdate(entity);
         validator.validateForUpdate(request, entity);
-        merger.merge(entity, request);
+        merger.mergeUpdate(entity, request);
         return repository.saveAndFlush(entity);
     }
 

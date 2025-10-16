@@ -28,7 +28,7 @@ public class UserService extends BaseService<UserEntity, UserRequest, Long> {
             case ADMIN -> new Admin();
         };
 
-        merger.merge(entity, request);
+        merger.mergeCreate(entity, request);
         return repository.saveAndFlush(entity);
     }
 }

@@ -15,8 +15,19 @@ public class UserMerger implements BaseMerger<UserEntity, UserRequest> {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void merge(UserEntity entity, UserRequest request) {
+    public void mergeCreate(UserEntity entity, UserRequest request) {
         if (request == null) { return; }
+        commonMerge(entity, request);
+        ifNotNull(request.getRole(), entity::setRole);
+    }
+
+    @Override
+    public void mergeUpdate(UserEntity entity, UserRequest request) {
+        if (request == null) { return; }
+        commonMerge(entity, request);
+    }
+
+    private void commonMerge(UserEntity entity, UserRequest request) {
         ifNotNull(request.getFirstName(), entity::setFirstName);
         ifNotNull(request.getLastName(), entity::setLastName);
         ifNotNull(request.getRole(), entity::setRole);
