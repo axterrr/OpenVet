@@ -6,7 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import ua.edu.ukma.objectanalysis.openvet.domain.enums.UserRole;
 import ua.edu.ukma.objectanalysis.openvet.exception.ForbiddenException;
 
-public abstract class BasePermissionValidator<ENTITY> {
+public abstract class BasePermissionValidator<ENTITY, REQUEST> {
 
     protected Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
@@ -64,7 +64,7 @@ public abstract class BasePermissionValidator<ENTITY> {
 
     public abstract void validateForGetAll();
     public abstract void validateForGet(ENTITY entity);
-    public abstract void validateForCreate();
+    public abstract void validateForCreate(REQUEST request);
     public abstract void validateForUpdate(ENTITY entity);
     public abstract void validateForDelete(ENTITY entity);
 }

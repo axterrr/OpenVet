@@ -21,7 +21,7 @@ public abstract class BaseService<ENTITY extends Identifiable<ID>, REQUEST, ID> 
     @Autowired
     protected BaseValidator<ENTITY, REQUEST> validator;
     @Autowired
-    protected BasePermissionValidator<ENTITY> permissionValidator;
+    protected BasePermissionValidator<ENTITY, REQUEST> permissionValidator;
 
     protected abstract ENTITY newEntity();
 
@@ -38,7 +38,7 @@ public abstract class BaseService<ENTITY extends Identifiable<ID>, REQUEST, ID> 
     }
 
     public ENTITY create(REQUEST request) {
-        permissionValidator.validateForCreate();
+        permissionValidator.validateForCreate(request);
         validator.validateForCreate(request);
         ENTITY entity = newEntity();
         merger.merge(entity, request);

@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.UserEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.enums.UserRole;
+import ua.edu.ukma.objectanalysis.openvet.dto.user.UserRequest;
 
 @Component
 @RequiredArgsConstructor
-public class UserPermissionValidator extends BasePermissionValidator<UserEntity> {
+public class UserPermissionValidator extends BasePermissionValidator<UserEntity, UserRequest> {
 
     @Override
     public void validateForGetAll() {
@@ -28,10 +29,11 @@ public class UserPermissionValidator extends BasePermissionValidator<UserEntity>
     }
 
     @Override
-    public void validateForCreate() {
+    public void validateForCreate(UserRequest request) {
         if (isAuthenticated() && !isAuthenticatedUserAdmin()) {
             forbid();
         }
+        require(request.getRole() == UserRole.PET_OWNER);
     }
 
     @Override
