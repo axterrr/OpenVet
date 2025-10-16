@@ -2,13 +2,15 @@ package ua.edu.ukma.objectanalysis.openvet.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.Admin;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.PetOwner;
+import org.springframework.transaction.annotation.Transactional;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.AdminEntity;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.PetOwnerEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.UserEntity;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.Veterinarian;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 import ua.edu.ukma.objectanalysis.openvet.dto.user.UserRequest;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserService extends BaseService<UserEntity, UserRequest, Long> {
 
@@ -23,9 +25,9 @@ public class UserService extends BaseService<UserEntity, UserRequest, Long> {
         validator.validateForCreate(request);
 
         UserEntity entity = switch (request.getRole()) {
-            case PET_OWNER -> new PetOwner();
-            case VETERINARIAN -> new Veterinarian();
-            case ADMIN -> new Admin();
+            case PET_OWNER -> new PetOwnerEntity();
+            case VETERINARIAN -> new VeterinarianEntity();
+            case ADMIN -> new AdminEntity();
         };
 
         merger.mergeCreate(entity, request);

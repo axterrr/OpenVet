@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.PetOwner;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.PetOwnerEntity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class PetEntity implements Identifiable<Long> {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private PetOwner owner;
+    private PetOwnerEntity owner;
 
     @ManyToOne
     @JoinColumn(name = "pending_owner_id")

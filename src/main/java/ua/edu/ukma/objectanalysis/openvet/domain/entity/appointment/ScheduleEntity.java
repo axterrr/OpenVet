@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.Veterinarian;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -32,7 +32,7 @@ public class ScheduleEntity implements Identifiable<Long> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "veterinarian_id", nullable = false)
-    private Veterinarian veterinarian;
+    private VeterinarianEntity veterinarian;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

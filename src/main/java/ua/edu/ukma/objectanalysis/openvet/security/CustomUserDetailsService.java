@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.UserEntity;
 import ua.edu.ukma.objectanalysis.openvet.exception.NotFoundException;
-import ua.edu.ukma.objectanalysis.openvet.repository.UserRepository;
+import ua.edu.ukma.objectanalysis.openvet.repository.user.UserRepository;
 
 import java.util.Set;
 

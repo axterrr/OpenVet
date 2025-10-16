@@ -1,6 +1,7 @@
-package ua.edu.ukma.objectanalysis.openvet.repository;
+package ua.edu.ukma.objectanalysis.openvet.repository.user;
 
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.UserEntity;
+import ua.edu.ukma.objectanalysis.openvet.repository.BaseRepository;
 
 import java.util.Optional;
 

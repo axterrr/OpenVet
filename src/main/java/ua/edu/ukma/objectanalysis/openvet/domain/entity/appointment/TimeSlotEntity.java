@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.Veterinarian;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.enums.TimeSlotStatus;
 
 import java.time.LocalDateTime;
@@ -34,7 +34,7 @@ public class TimeSlotEntity implements Identifiable<Long> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "veterinarian_id", nullable = false)
-    private Veterinarian veterinarian;
+    private VeterinarianEntity veterinarian;
 
     @Column(nullable = false)
     private LocalDateTime startTime;

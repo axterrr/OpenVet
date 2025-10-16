@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.appointment.ScheduleEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.appointment.TimeSlotEntity;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.Veterinarian;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.enums.TimeSlotStatus;
-import ua.edu.ukma.objectanalysis.openvet.repository.ScheduleRepository;
-import ua.edu.ukma.objectanalysis.openvet.repository.TimeSlotRepository;
+import ua.edu.ukma.objectanalysis.openvet.repository.appointment.ScheduleRepository;
+import ua.edu.ukma.objectanalysis.openvet.repository.appointment.TimeSlotRepository;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -38,7 +38,7 @@ public class TimeSlotGeneratorTask {
             List<ScheduleEntity> schedulesForThatDay = scheduleRepository.findByDayOfWeek(thatDay);
 
             for (ScheduleEntity schedule : schedulesForThatDay) {
-                Veterinarian veterinarian = schedule.getVeterinarian();
+                VeterinarianEntity veterinarian = schedule.getVeterinarian();
 
                 // If the veterinarian has already booked slots for this day, skip it.
                 // TODO: This is required, due to possibility of overlapping slots.
@@ -60,7 +60,7 @@ public class TimeSlotGeneratorTask {
         final LocalTime dayEndTime = schedule.getEndTime();
         final LocalTime breakStartTime = schedule.getBreakStartTime();
         final LocalTime breakEndTime = schedule.getBreakEndTime();
-        final Veterinarian veterinarian = schedule.getVeterinarian();
+        final VeterinarianEntity veterinarian = schedule.getVeterinarian();
 
         while (slotTime.isBefore(dayEndTime)) {
             // Variable that stores the end time of the current work period (either until break or end of day)

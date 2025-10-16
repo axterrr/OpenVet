@@ -6,7 +6,7 @@ import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.UserEntity;
 import ua.edu.ukma.objectanalysis.openvet.dto.user.UserRequest;
 import ua.edu.ukma.objectanalysis.openvet.exception.ConflictException;
 import ua.edu.ukma.objectanalysis.openvet.exception.ValidationException;
-import ua.edu.ukma.objectanalysis.openvet.repository.UserRepository;
+import ua.edu.ukma.objectanalysis.openvet.repository.user.UserRepository;
 
 @Component
 @RequiredArgsConstructor

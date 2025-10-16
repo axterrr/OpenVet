@@ -5,6 +5,6 @@ import jakarta.persistence.Entity;
 import ua.edu.ukma.objectanalysis.openvet.domain.enums.UserRole;
 
 @Entity
-@DiscriminatorValue(UserRole.PET_OWNER_DISC)
-public class PetOwner extends UserEntity {
+@DiscriminatorValue(UserRole.ADMIN_DISC)
+public class AdminEntity extends UserEntity {
 }
