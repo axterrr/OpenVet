@@ -21,7 +21,7 @@ import ua.edu.ukma.objectanalysis.openvet.domain.enums.UserRole;
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type")
+@DiscriminatorColumn(name = "role")
 @Data
 @Builder
 @AllArgsConstructor
@@ -47,7 +47,6 @@ public class UserEntity implements Identifiable<Long> {
     private String phone;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "role", nullable = false, insertable = false, updatable = false)
     private UserRole role;
 }
-
