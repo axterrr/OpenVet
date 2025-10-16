@@ -17,7 +17,7 @@ public class UserPermissionValidator extends BasePermissionValidator<UserEntity,
 
     @Override
     public void validateForGet(UserEntity entity) {
-        if (isAuthenticatedUserAdmin()) {
+        if (entity.getId().equals(getAuthenticatedUserId()) || isAuthenticatedUserAdmin()) {
             return;
         }
         if (isAuthenticatedUserPetOwner()) {

@@ -2,7 +2,7 @@ package ua.edu.ukma.objectanalysis.openvet.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -37,6 +37,6 @@ public class UserRequest {
     @Size(min = 8, message = "Password length should be at least 8 symbols")
     private String password;
 
-    @NotEmpty(message = "User role cannot be empty")
+    @NotNull(message = "User role cannot be empty")
     private UserRole role;
 }
