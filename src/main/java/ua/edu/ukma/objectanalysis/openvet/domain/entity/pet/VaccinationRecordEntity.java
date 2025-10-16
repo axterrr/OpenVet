@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.Veterinarian;
 
 @Builder
@@ -13,7 +14,7 @@ import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.Veterinarian;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vaccination_records")
-public class VaccinationRecordEntity {
+public class VaccinationRecordEntity implements Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
