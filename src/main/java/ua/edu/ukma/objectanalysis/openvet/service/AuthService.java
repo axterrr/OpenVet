@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import ua.edu.ukma.objectanalysis.openvet.dto.auth.LoginRequest;
 import ua.edu.ukma.objectanalysis.openvet.dto.user.UserRequest;
@@ -24,9 +25,10 @@ public class AuthService {
     }
 
     public String login(LoginRequest req) {
-        Authentication auth = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
-        );
-        return tokenProvider.generateToken(auth);
+        Authentication loginData = new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword());
+        Authentication auth = authenticationManager.authenticate(loginData);
+        String email = auth.getName();
+        String role = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).findFirst().orElse(null);
+        return tokenProvider.generateToken(email, role);
     }
 }

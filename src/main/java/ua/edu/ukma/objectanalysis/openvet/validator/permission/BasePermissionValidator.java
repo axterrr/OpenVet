@@ -17,9 +17,9 @@ public abstract class BasePermissionValidator<ENTITY, REQUEST> {
         return authentication != null && !(authentication instanceof AnonymousAuthenticationToken);
     }
 
-    protected Long getAuthenticatedUserId() {
+    protected String getAuthenticatedUserEmail() {
         if (!isAuthenticated()) { return null; }
-        return (Long) getAuthentication().getPrincipal();
+        return (String) getAuthentication().getPrincipal();
     }
 
     protected UserRole getAuthenticatedUserRole() {
@@ -46,8 +46,8 @@ public abstract class BasePermissionValidator<ENTITY, REQUEST> {
         require(getAuthenticatedUserRole() == role);
     }
 
-    protected void requireUserId(Long id) {
-        require(getAuthenticatedUserId().equals(id));
+    protected void requireUserEmail(String email) {
+        require(getAuthenticatedUserEmail().equals(email));
     }
 
     protected boolean isAuthenticatedUserAdmin() {

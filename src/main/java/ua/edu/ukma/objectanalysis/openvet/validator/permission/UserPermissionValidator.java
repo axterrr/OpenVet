@@ -17,7 +17,7 @@ public class UserPermissionValidator extends BasePermissionValidator<UserEntity,
 
     @Override
     public void validateForGet(UserEntity entity) {
-        if (entity.getId().equals(getAuthenticatedUserId()) || isAuthenticatedUserAdmin()) {
+        if (entity.getEmail().equals(getAuthenticatedUserEmail()) || isAuthenticatedUserAdmin()) {
             return;
         }
         if (isAuthenticatedUserPetOwner()) {
@@ -41,7 +41,7 @@ public class UserPermissionValidator extends BasePermissionValidator<UserEntity,
         if (isAuthenticatedUserAdmin()) {
             require(entity.getRole() == UserRole.VETERINARIAN);
         }
-        requireUserId(entity.getId());
+        requireUserEmail(entity.getEmail());
     }
 
     @Override
@@ -49,6 +49,6 @@ public class UserPermissionValidator extends BasePermissionValidator<UserEntity,
         if (isAuthenticatedUserVeterinarian()) {
             return;
         }
-        requireUserId(entity.getId());
+        requireUserEmail(entity.getEmail());
     }
 }

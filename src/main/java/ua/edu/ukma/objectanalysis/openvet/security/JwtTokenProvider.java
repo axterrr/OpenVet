@@ -4,12 +4,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.List;
 
 @Component
 public class JwtTokenProvider {
@@ -22,21 +19,13 @@ public class JwtTokenProvider {
         this.algorithm = Algorithm.HMAC512(properties.getSecret());
     }
 
-    public String generateToken(Authentication authentication) {
-        String username = authentication.getName();
-        List<String> authorities = authentication.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .toList();
-
-        Date now = new Date();
-        Date expiry = new Date(now.getTime() + properties.getExpiration());
-
+    public String generateToken(String email, String authority) {
         return JWT.create()
-                .withSubject(username)
-                .withClaim("roles", authorities)
-                .withIssuedAt(now)
-                .withExpiresAt(expiry)
-                .sign(algorithm);
+            .withSubject(email)
+            .withClaim("role", authority)
+            .withIssuedAt(new Date())
+            .withExpiresAt(new Date(System.currentTimeMillis() + properties.getExpiration()))
+            .sign(algorithm);
     }
 
     public DecodedJWT verifyToken(String token) throws JWTVerificationException {
