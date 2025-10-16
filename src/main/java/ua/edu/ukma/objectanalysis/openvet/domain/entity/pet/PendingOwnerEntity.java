@@ -35,7 +35,7 @@ public class PendingOwnerEntity implements Identifiable<Long> {
     private String phoneNumber;
 
     @Column(nullable = false)
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private final LocalDateTime createdDate = LocalDateTime.now();
 
     @OneToMany(mappedBy = "pendingOwner")
     @OnDelete(action = OnDeleteAction.SET_NULL)

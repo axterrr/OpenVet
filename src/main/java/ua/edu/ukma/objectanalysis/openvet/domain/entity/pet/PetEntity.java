@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.examination.MedicalRecordsEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.PetOwnerEntity;
 
 import java.time.LocalDate;
@@ -54,6 +55,9 @@ public class PetEntity implements Identifiable<Long> {
     @JoinColumn(name = "pending_owner_id")
     private PendingOwnerEntity pendingOwner;
 
-    @OneToMany(mappedBy = "pet")
+    @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY)
     private List<VaccinationRecordEntity> vaccinationRecords = new ArrayList<>();
+
+    @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY)
+    private List<MedicalRecordsEntity> medicalRecords = new ArrayList<>();
 }

@@ -6,11 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.examination.MedicalRecordsEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.pet.PetEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.enums.AppointmentStatus;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Builder
 @Data
@@ -49,6 +52,9 @@ public class AppointmentEntity implements Identifiable<Long> {
 
     @Column(length = 2000)
     private String notes;
+
+    @OneToMany(mappedBy = "appointment", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private Set<MedicalRecordsEntity> medicalRecords = new HashSet<>();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate = LocalDateTime.now();
