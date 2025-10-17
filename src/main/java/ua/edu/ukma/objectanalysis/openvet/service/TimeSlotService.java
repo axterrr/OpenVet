@@ -87,7 +87,7 @@ public class TimeSlotService extends BaseService<TimeSlotEntity, TimeSlotRequest
 
         slots.sort(Comparator.comparing(TimeSlotEntity::getStartTime));
         Iterator<TimeSlotEntity> it = slots.iterator();
-        TimeSlotEntity current = getNext(it);
+        TimeSlotEntity current = it.next();
         List<TimeSlotEntity> toDelete = new ArrayList<>();
 
         while (it.hasNext()) {
@@ -104,10 +104,6 @@ public class TimeSlotService extends BaseService<TimeSlotEntity, TimeSlotRequest
         timeSlotRepository.save(current);
         timeSlotRepository.deleteAll(toDelete);
         timeSlotRepository.flush();
-    }
-
-    private static TimeSlotEntity getNext(Iterator<TimeSlotEntity> it) {
-        return it.next();
     }
 
     public TimeSlotEntity linkAppointment(Long slotId, Long appointmentId) {
