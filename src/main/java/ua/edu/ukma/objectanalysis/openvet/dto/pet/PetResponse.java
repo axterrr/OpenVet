@@ -20,11 +20,9 @@ public class PetResponse {
     private LocalDate birthDate;
     private PetSex sex;
     private String color;
-    private boolean neutered;
+    private Boolean neutered;
     private String microchipNumber;
-
     private Long ownerId;
     private String ownerPhone;
-    private String pendingOwnerPhone;
 }
 

@@ -58,8 +58,8 @@ public class PetController {
     }
 
     @GetMapping("microchip/{chip}")
-    public ResponseEntity<List<PetResponse>> getByChip(@PathVariable("chip") String microchip) {
-        return new ResponseEntity<>(petService.findByMicrochipNumber(microchip).stream().map(this::map).toList(), HttpStatus.OK);
+    public ResponseEntity<PetResponse> getByChip(@PathVariable("chip") String microchip) {
+        return new ResponseEntity<>(map(petService.findByMicrochipNumber(microchip)), HttpStatus.OK);
     }
 
     @GetMapping("phone/{phone}")
@@ -139,8 +139,7 @@ public class PetController {
             .neutered(e.isNeutered())
             .microchipNumber(e.getMicrochipNumber())
             .ownerId(e.getOwner() != null ? e.getOwner().getId() : null)
-            .ownerPhone(e.getOwner() != null ? e.getOwner().getPhoneNumber() : null)
-            .pendingOwnerPhone(e.getPendingOwner() != null ? e.getPendingOwner().getPhoneNumber() : null)
+            .ownerPhone(e.getOwner() != null ? e.getOwner().getPhoneNumber() : e.getPendingOwner().getPhoneNumber())
             .build();
     }
 

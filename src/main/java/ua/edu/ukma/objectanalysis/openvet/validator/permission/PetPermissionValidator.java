@@ -34,9 +34,7 @@ public class PetPermissionValidator extends BasePermissionValidator<PetEntity, P
             return;
         }
         UserEntity me = getAuthenticatedUser();
-        boolean ownerMatches = request.getOwnerId() != null && me != null && me.getId().equals(request.getOwnerId());
-        boolean pendingMatches = request.getPendingOwnerPhone() != null && me != null && request.getPendingOwnerPhone().equals(me.getPhoneNumber());
-        require(ownerMatches || pendingMatches);
+        require(me != null && me.getPhoneNumber().equals(request.getOwnerPhone()));
     }
 
     @Override
