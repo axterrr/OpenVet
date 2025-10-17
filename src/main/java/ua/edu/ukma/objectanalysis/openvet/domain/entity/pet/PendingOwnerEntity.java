@@ -1,16 +1,21 @@
 package ua.edu.ukma.objectanalysis.openvet.domain.entity.pet;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import lombok.ToString;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -38,6 +43,8 @@ public class PendingOwnerEntity implements Identifiable<Long> {
     @Column(name = "creation_date", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "pendingOwner")
     private Set<PetEntity> unattachedPets;
 }

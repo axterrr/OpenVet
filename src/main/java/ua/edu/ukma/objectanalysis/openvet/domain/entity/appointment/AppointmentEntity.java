@@ -15,7 +15,9 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
@@ -63,6 +65,8 @@ public class AppointmentEntity implements Identifiable<Long> {
     @Column(name = "notes", length = 2000)
     private String notes;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "appointment")
     private Set<MedicalRecordsEntity> medicalRecords;
 }

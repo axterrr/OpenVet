@@ -6,8 +6,6 @@ import ua.edu.ukma.objectanalysis.openvet.domain.entity.pet.PendingOwnerEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.pet.PetEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.PetOwnerEntity;
 import ua.edu.ukma.objectanalysis.openvet.dto.pet.PetRequest;
-import ua.edu.ukma.objectanalysis.openvet.exception.NotFoundException;
-import ua.edu.ukma.objectanalysis.openvet.exception.ValidationException;
 import ua.edu.ukma.objectanalysis.openvet.repository.pet.PendingOwnerRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.user.PetOwnerRepository;
 
@@ -54,7 +52,7 @@ public class PetMerger implements BaseMerger<PetEntity, PetRequest> {
         ifNotNull(request.getBirthDate(), entity::setBirthDate);
         ifNotNull(request.getSex(), entity::setSex);
         ifNotNull(request.getColor(), entity::setColor);
-        ifNotNull(request.getNeutered(), entity::setNeutered);
+        ifNotNull(request.getNeutered(), entity::setIsNeutered);
         ifNotNull(request.getMicrochipNumber(), entity::setMicrochipNumber);
     }
 }

@@ -1,10 +1,22 @@
 package ua.edu.ukma.objectanalysis.openvet.domain.entity.pet;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
@@ -48,7 +60,7 @@ public class PetEntity implements Identifiable<Long> {
     private String color;
 
     @Column(name = "is_neutered", nullable = false)
-    private boolean isNeutered;
+    private Boolean isNeutered;
 
     @Column(name = "microchip_number", length = 15, unique = true)
     private String microchipNumber;
@@ -63,6 +75,8 @@ public class PetEntity implements Identifiable<Long> {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private PendingOwnerEntity pendingOwner;
 
-    @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "pet")
     private List<VaccinationRecordEntity> vaccinationRecords = new ArrayList<>();
 }
