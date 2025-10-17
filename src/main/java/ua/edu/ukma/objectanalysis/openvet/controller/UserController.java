@@ -19,7 +19,7 @@ import ua.edu.ukma.objectanalysis.openvet.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 

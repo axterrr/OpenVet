@@ -14,7 +14,7 @@ import ua.edu.ukma.objectanalysis.openvet.dto.user.UserRequest;
 import ua.edu.ukma.objectanalysis.openvet.service.AuthService;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
