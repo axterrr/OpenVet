@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MedicalRecordResponse {
+public class MedicalRecordsResponse {
     private Long id;
     private Long appointmentId;
     private String diagnosis;

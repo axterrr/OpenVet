@@ -30,7 +30,7 @@ public class PrescriptionEntity implements Identifiable<Long> {
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "medical_record_id")
+    @JoinColumn(name = "medical_record_id", updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private MedicalRecordsEntity medicalRecord;
 

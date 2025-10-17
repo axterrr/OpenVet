@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MedicalRecordRequest {
+public class MedicalRecordsRequest {
 
     @NotNull(message = "Appointment ID is required")
     private Long appointmentId;

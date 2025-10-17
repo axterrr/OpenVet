@@ -6,7 +6,7 @@ public class MergerUtils {
 
     private MergerUtils() {}
 
-    static <T> void ifNotNull(T value, Consumer<T> consumer) {
+    public static <T> void ifNotNull(T value, Consumer<T> consumer) {
         if (value != null) {
             consumer.accept(value);
         }

@@ -35,7 +35,7 @@ public class MedicalRecordsEntity implements Identifiable<Long> {
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "appointment_id")
+    @JoinColumn(name = "appointment_id", updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private AppointmentEntity appointment;
 
@@ -48,8 +48,7 @@ public class MedicalRecordsEntity implements Identifiable<Long> {
     @Column(name = "notes", length = 2000)
     private String notes;
 
-    @OneToOne
-    @JoinColumn(name = "vital_signs_id")
+    @OneToOne(mappedBy = "medicalRecord")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private VitalSignsEntity vitalSigns;
 
