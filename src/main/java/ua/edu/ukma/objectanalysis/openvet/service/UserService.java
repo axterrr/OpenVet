@@ -7,12 +7,20 @@ import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.AdminEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.PetOwnerEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.UserEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
+import ua.edu.ukma.objectanalysis.openvet.domain.enums.UserRole;
 import ua.edu.ukma.objectanalysis.openvet.dto.user.UserRequest;
+import ua.edu.ukma.objectanalysis.openvet.repository.user.UserRepository;
+import ua.edu.ukma.objectanalysis.openvet.validator.permission.UserPermissionValidator;
+
+import java.util.List;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserService extends BaseService<UserEntity, UserRequest, Long> {
+
+    private final UserRepository userRepository;
+    private final UserPermissionValidator userPermissionValidator;
 
     @Override
     protected UserEntity newEntity() {
@@ -32,5 +40,10 @@ public class UserService extends BaseService<UserEntity, UserRequest, Long> {
 
         merger.mergeCreate(entity, request);
         return repository.saveAndFlush(entity);
+    }
+
+    public List<UserEntity> getByRole(UserRole role) {
+        userPermissionValidator.validateForGetByRole(role);
+        return userRepository.findAllByRole(role);
     }
 }

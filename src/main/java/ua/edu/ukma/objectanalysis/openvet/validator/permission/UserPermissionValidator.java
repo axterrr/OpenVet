@@ -51,4 +51,8 @@ public class UserPermissionValidator extends BasePermissionValidator<UserEntity,
         }
         requireUserEmail(entity.getEmail());
     }
+
+    public void validateForGetByRole(UserRole role) {
+        requireUserRole(UserRole.ADMIN);
+    }
 }

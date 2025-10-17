@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.UserEntity;
+import ua.edu.ukma.objectanalysis.openvet.domain.enums.UserRole;
 import ua.edu.ukma.objectanalysis.openvet.dto.user.UserRequest;
 import ua.edu.ukma.objectanalysis.openvet.dto.user.UserResponse;
 import ua.edu.ukma.objectanalysis.openvet.service.UserService;
@@ -52,7 +53,22 @@ public class UserController {
         userService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    
+
+    @GetMapping("admins")
+    public ResponseEntity<List<UserResponse>> getAdminList() {
+        return new ResponseEntity<>(userService.getByRole(UserRole.ADMIN).stream().map(this::map).toList(), HttpStatus.OK);
+    }
+
+    @GetMapping("veterinarians")
+    public ResponseEntity<List<UserResponse>> getVeterinariansList() {
+        return new ResponseEntity<>(userService.getByRole(UserRole.VETERINARIAN).stream().map(this::map).toList(), HttpStatus.OK);
+    }
+
+    @GetMapping("pet-owners")
+    public ResponseEntity<List<UserResponse>> getPetOwnerList() {
+        return new ResponseEntity<>(userService.getByRole(UserRole.PET_OWNER).stream().map(this::map).toList(), HttpStatus.OK);
+    }
+
     private UserResponse map(UserEntity entity) {
         if (entity == null) { return null; }
         return UserResponse.builder()

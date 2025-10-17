@@ -32,7 +32,7 @@ public class MedicalRecordsController {
     private final MedicalRecordsService medicalRecordsService;
 
     @GetMapping("")
-    public ResponseEntity<List<MedicalRecordsResponse>> getUserList() {
+    public ResponseEntity<List<MedicalRecordsResponse>> getList() {
         return new ResponseEntity<>(medicalRecordsService.getAll().stream().map(this::map).toList(), HttpStatus.OK);
     }
 
@@ -43,7 +43,7 @@ public class MedicalRecordsController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<MedicalRecordsResponse> getUser(@PathVariable Long id) {
+    public ResponseEntity<MedicalRecordsResponse> get(@PathVariable Long id) {
         return new ResponseEntity<>(map(medicalRecordsService.getById(id)), HttpStatus.OK);
     }
 
@@ -54,9 +54,24 @@ public class MedicalRecordsController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
         medicalRecordsService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/veterinarian/{veterinarianId}")
+    public ResponseEntity<List<MedicalRecordsResponse>> getListByVeterinarian(@PathVariable Long veterinarianId) {
+        return new ResponseEntity<>(medicalRecordsService.getByVeterinarian(veterinarianId).stream().map(this::map).toList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/pet-owner/{petOwnerId}")
+    public ResponseEntity<List<MedicalRecordsResponse>> getListByPetOwner(@PathVariable Long petOwnerId) {
+        return new ResponseEntity<>(medicalRecordsService.getByPetOwner(petOwnerId).stream().map(this::map).toList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/pet/{petId}")
+    public ResponseEntity<List<MedicalRecordsResponse>> getListByPet(@PathVariable Long petId) {
+        return new ResponseEntity<>(medicalRecordsService.getByPet(petId).stream().map(this::map).toList(), HttpStatus.OK);
     }
 
     private MedicalRecordsResponse map(MedicalRecordsEntity entity) {
