@@ -5,8 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
+
+import java.time.LocalDate;
 
 @Builder
 @Data
@@ -17,31 +21,35 @@ import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 public class VaccinationRecordEntity implements Identifiable<Long> {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "vaccine_name", nullable = false)
     private String vaccineName;
 
-    @Column(nullable = false)
+    @Column(name = "manufacturer", nullable = false)
     private String manufacturer;
 
-    @Column(nullable = false)
+    @Column(name = "batch_number", nullable = false)
     private String batchNumber;
 
     @ManyToOne
-    @JoinColumn(name = "veterinarian_id", nullable = false)
+    @JoinColumn(name = "veterinarian_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private VeterinarianEntity veterinarian;
 
-    @Column(length = 2000)
+    @Column(name = "notes", length = 2000)
     private String notes;
 
-    @Column(nullable = false)
-    private java.time.LocalDate vaccinationDate;
+    @Column(name = "vaccination_date", nullable = false)
+    private LocalDate vaccinationDate;
 
-    private java.time.LocalDate nextDueDate;
+    @Column(name = "next_due_date", nullable = false)
+    private LocalDate nextDueDate;
 
-    @ManyToOne
-    @JoinColumn(name = "pet_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "pet_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PetEntity pet;
 }

@@ -28,16 +28,16 @@ import java.util.Set;
 public class PendingOwnerEntity implements Identifiable<Long> {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 15)
+    @Column(name = "phone_number", nullable = false, unique = true, length = 15)
     private String phoneNumber;
 
-    @Column(nullable = false)
-    private final LocalDateTime createdDate = LocalDateTime.now();
+    @Column(name = "creation_date", nullable = false, updatable = false)
+    private LocalDateTime createdDate;
 
     @OneToMany(mappedBy = "pendingOwner")
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    private Set<PetEntity> unattachedPets = new HashSet<>();
+    private Set<PetEntity> unattachedPets;
 }

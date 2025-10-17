@@ -28,22 +28,23 @@ import ua.edu.ukma.objectanalysis.openvet.domain.enums.UserRole;
 @NoArgsConstructor
 public class UserEntity implements Identifiable<Long> {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 120)
+    @Column(name = "email", nullable = false, unique = true, length = 120)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(nullable = false, length = 60)
+    @Column(name = "first_name", nullable = false, length = 60)
     private String firstName;
 
-    @Column(nullable = false, length = 60)
+    @Column(name = "last_name", nullable = false, length = 60)
     private String lastName;
 
-    @Column(nullable = false, unique = true, length = 40)
+    @Column(name = "phone_number", nullable = false, unique = true, length = 40)
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
