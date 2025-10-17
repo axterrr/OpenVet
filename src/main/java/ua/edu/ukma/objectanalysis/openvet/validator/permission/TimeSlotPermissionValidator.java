@@ -67,4 +67,8 @@ public class TimeSlotPermissionValidator extends BasePermissionValidator<TimeSlo
         if (email == null) { return null; }
         return userRepository.findByEmail(email).orElse(null);
     }
+
+    public void validateForGenerate() {
+        require(isAuthenticatedUserAdmin());
+    }
 }

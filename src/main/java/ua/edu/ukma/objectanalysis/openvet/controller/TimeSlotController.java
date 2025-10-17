@@ -95,6 +95,14 @@ public class TimeSlotController {
         return new ResponseEntity<>(map(timeSlotService.unlinkAppointment(slotId)), HttpStatus.OK);
     }
 
+    // Generation methods
+
+    @PostMapping("generate")
+    public ResponseEntity<HttpStatus> generateTimeSlots() {
+        timeSlotService.generateSlots();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     private TimeSlotResponse map(TimeSlotEntity e) {
         if (e == null) { return null; }
         return TimeSlotResponse.builder()

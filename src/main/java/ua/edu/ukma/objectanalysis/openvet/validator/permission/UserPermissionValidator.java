@@ -30,10 +30,17 @@ public class UserPermissionValidator extends BasePermissionValidator<UserEntity,
 
     @Override
     public void validateForCreate(UserRequest request) {
-        if (isAuthenticated() && !isAuthenticatedUserAdmin()) {
-            forbid();
+        // Unauthenticated users can only self-register as PET_OWNER
+        if (!isAuthenticated()) {
+            require(request != null && request.getRole() == UserRole.PET_OWNER);
+            return;
         }
-        require(request.getRole() == UserRole.PET_OWNER);
+        // Authenticated non-admin cannot create users
+        if (!isAuthenticatedUserAdmin()) { forbid(); }
+        // Admin can create veterinarians (and optionally other roles)
+        require(request != null && (request.getRole() == UserRole.VETERINARIAN
+            || request.getRole() == UserRole.PET_OWNER
+            || request.getRole() == UserRole.ADMIN));
     }
 
     @Override
@@ -46,7 +53,7 @@ public class UserPermissionValidator extends BasePermissionValidator<UserEntity,
 
     @Override
     public void validateForDelete(UserEntity entity) {
-        if (isAuthenticatedUserVeterinarian()) {
+        if (isAuthenticatedUserAdmin()) {
             return;
         }
         requireUserEmail(entity.getEmail());

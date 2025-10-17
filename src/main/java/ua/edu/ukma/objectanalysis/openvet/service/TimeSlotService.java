@@ -10,8 +10,10 @@ import ua.edu.ukma.objectanalysis.openvet.dto.appointment.TimeSlotRequest;
 import ua.edu.ukma.objectanalysis.openvet.exception.ConflictException;
 import ua.edu.ukma.objectanalysis.openvet.exception.NotFoundException;
 import ua.edu.ukma.objectanalysis.openvet.repository.appointment.AppointmentRepository;
+import ua.edu.ukma.objectanalysis.openvet.repository.appointment.ScheduleRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.appointment.TimeSlotRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.user.VeterinarianRepository;
+import ua.edu.ukma.objectanalysis.openvet.task.TimeSlotGeneratorTask;
 import ua.edu.ukma.objectanalysis.openvet.validator.data.TimeSlotValidator;
 import ua.edu.ukma.objectanalysis.openvet.validator.permission.TimeSlotPermissionValidator;
 
@@ -32,6 +34,7 @@ public class TimeSlotService extends BaseService<TimeSlotEntity, TimeSlotRequest
     private final TimeSlotPermissionValidator permissionValidator;
     private final TimeSlotValidator validator;
     private final VeterinarianRepository veterinarianRepository;
+    private final ScheduleRepository scheduleRepository;
 
     @Override
     protected TimeSlotEntity newEntity() {
@@ -162,6 +165,14 @@ public class TimeSlotService extends BaseService<TimeSlotEntity, TimeSlotRequest
 
         appointmentRepository.save(appt);
         return timeSlotRepository.saveAndFlush(slot);
+    }
+
+    // Generator methods
+
+    public void generateSlots() {
+        permissionValidator.validateForGenerate();
+        TimeSlotGeneratorTask task = new TimeSlotGeneratorTask(scheduleRepository, timeSlotRepository);
+        task.generateTimeSlots();
     }
 
     // HELPER METHODS

@@ -37,6 +37,15 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    // New: dedicated endpoint to create veterinarians (admin only)
+    @PostMapping("/veterinarians")
+    public ResponseEntity<HttpStatus> createVeterinarian(@RequestBody UserRequest request) {
+        if (request == null) { return new ResponseEntity<>(HttpStatus.BAD_REQUEST); }
+        request.setRole(UserRole.VETERINARIAN);
+        userService.create(request);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
         return new ResponseEntity<>(map(userService.getById(id)), HttpStatus.OK);
