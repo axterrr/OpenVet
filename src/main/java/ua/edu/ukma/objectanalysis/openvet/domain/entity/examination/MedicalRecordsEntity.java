@@ -1,5 +1,6 @@
 package ua.edu.ukma.objectanalysis.openvet.domain.entity.examination;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,14 +49,14 @@ public class MedicalRecordsEntity implements Identifiable<Long> {
     @Column(name = "notes", length = 2000)
     private String notes;
 
-    @OneToOne(mappedBy = "medicalRecord")
+    @OneToOne(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private VitalSignsEntity vitalSigns;
 
-    @OneToMany(mappedBy = "medicalRecord")
+    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PrescriptionEntity> prescriptions;
 
-    @OneToMany(mappedBy = "medicalRecord")
+    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LabResultEntity> labResults;
 
     // TODO: follow up appointment?
