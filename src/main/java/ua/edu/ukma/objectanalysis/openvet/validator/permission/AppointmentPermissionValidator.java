@@ -49,9 +49,30 @@ public class AppointmentPermissionValidator extends BasePermissionValidator<Appo
         validateForUpdate(entity);
     }
 
+    // Explicit permission for clinic-only cancellation
+    public void validateForClinicCancel(AppointmentEntity entity) {
+        if (isAuthenticatedUserAdmin()) { return; }
+        if (isAuthenticatedUserVeterinarian()) {
+            require(entity.getTimeSlot() != null &&
+                entity.getTimeSlot().getVeterinarian() != null &&
+                entity.getTimeSlot().getVeterinarian().getEmail().equals(getAuthenticatedUserEmail()));
+            return;
+        }
+        forbid();
+    }
+
+    // Explicit permission for owner-only cancellation
+    public void validateForOwnerCancel(AppointmentEntity entity) {
+        if (isAuthenticatedUserAdmin()) { return; }
+        if (isAuthenticatedUserPetOwner()) {
+            require(isOwnedByAuthenticatedUser(entity.getPet()));
+            return;
+        }
+        forbid();
+    }
+
     private boolean isOwnedByAuthenticatedUser(PetEntity pet) {
         String email = getAuthenticatedUserEmail();
         return pet != null && pet.getOwner() != null && email != null && email.equals(pet.getOwner().getEmail());
     }
 }
-

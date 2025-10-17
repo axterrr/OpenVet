@@ -38,6 +38,19 @@ public class TimeSlotService extends BaseService<TimeSlotEntity, TimeSlotRequest
         return new TimeSlotEntity();
     }
 
+    // New: read slots for a veterinarian within a time range
+    public List<TimeSlotEntity> getForVeterinarianInRange(Long veterinarianId, LocalDateTime from, LocalDateTime to) {
+        if (from == null || to == null) { throw new IllegalArgumentException("from/to must be provided"); }
+        if (from.isAfter(to)) { throw new IllegalArgumentException("Start time must be before end time"); }
+        List<TimeSlotEntity> all = timeSlotRepository.findInTimeRange(veterinarianId, from, to);
+        List<TimeSlotEntity> allowed = new ArrayList<>();
+        for (TimeSlotEntity ts : all) {
+            try { permissionValidator.validateForGet(ts); allowed.add(ts); }
+            catch (Exception ignored) {}
+        }
+        return allowed;
+    }
+
     // Method that unites all contiguous slots within the given time range for the specified veterinarian
     public int mergeContiguous(Long veterinarianId, LocalDateTime from, LocalDateTime to) {
         if (from.isAfter(to)) { throw new IllegalArgumentException("Start time must be before end time"); }
