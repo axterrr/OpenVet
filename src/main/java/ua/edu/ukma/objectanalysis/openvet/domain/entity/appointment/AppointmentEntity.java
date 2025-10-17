@@ -1,18 +1,28 @@
 package ua.edu.ukma.objectanalysis.openvet.domain.entity.appointment;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.examination.MedicalRecordsEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.pet.PetEntity;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.enums.AppointmentStatus;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Builder
@@ -24,16 +34,14 @@ import java.util.Set;
 public class AppointmentEntity implements Identifiable<Long> {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pet_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "pet_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private PetEntity pet;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "veterinarian_id", nullable = false)
-    private VeterinarianEntity veterinarian;
 
     /*
      * TODO: How should we handle time slots?
@@ -41,23 +49,20 @@ public class AppointmentEntity implements Identifiable<Long> {
      *   - @OneToMany and allow multiple appointments in a timeslot?
      */
     @OneToOne
+    @JoinColumn(name = "time_slot_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private TimeSlotEntity timeSlot;
 
-    @Column(nullable = false)
+    @Column(name = "reason_for_visit", nullable = false)
     private String reasonForVisit;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private AppointmentStatus status;
 
-    @Column(length = 2000)
+    @Column(name = "notes", length = 2000)
     private String notes;
 
-    @OneToMany(mappedBy = "appointment", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private Set<MedicalRecordsEntity> medicalRecords = new HashSet<>();
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate = LocalDateTime.now();
-
-    private LocalDateTime updatedDate;
+    @OneToMany(mappedBy = "appointment")
+    private Set<MedicalRecordsEntity> medicalRecords;
 }

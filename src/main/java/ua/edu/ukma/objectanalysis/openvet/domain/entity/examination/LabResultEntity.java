@@ -1,13 +1,23 @@
 package ua.edu.ukma.objectanalysis.openvet.domain.entity.examination;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
-
-import java.time.LocalDate;
+import ua.edu.ukma.objectanalysis.openvet.domain.enums.LabResultType;
 
 @Builder
 @Data
@@ -18,21 +28,22 @@ import java.time.LocalDate;
 public class LabResultEntity implements Identifiable<Long> {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "medical_record_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "medical_record_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MedicalRecordsEntity medicalRecord;
 
-    @Column(nullable = false, length = 100)
-    private String testType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "test_type", nullable = false, length = 100)
+    private LabResultType testType;
 
-    @Column(nullable = false)
+    @Column(name = "result_details", nullable = false)
     private String resultDetails;
 
-    @Column(nullable = false)
-    private LocalDate resultDate;
-
+    @Column(name = "notes", nullable = false)
     private String notes;
 }

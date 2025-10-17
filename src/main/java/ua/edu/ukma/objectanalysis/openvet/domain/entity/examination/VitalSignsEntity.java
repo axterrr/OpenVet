@@ -1,14 +1,19 @@
 package ua.edu.ukma.objectanalysis.openvet.domain.entity.examination;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -19,21 +24,29 @@ import java.time.LocalDateTime;
 public class VitalSignsEntity implements Identifiable<Long> {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @OneToOne(mappedBy = "vitalSigns", optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private MedicalRecordsEntity medicalRecord;
+
+    @Column(name = "value", nullable = false)
     private String value;
 
-    private int respiratoryRate;
+    @Column(name = "respiration_rate")
+    private Integer respiratoryRate;
 
-    private BigDecimal weight;
+    @Column(name = "weight")
+    private Double weight;
 
-    private BigDecimal temperature;
+    @Column(name = "temperature")
+    private Double temperature;
 
-    private BigDecimal bloodPressure;
+    @Column(name = "blood_pressure")
+    private Double bloodPressure;
 
-    private int heartRate;
-
-    LocalDateTime measuredAt;
+    @Column(name = "heart_rate")
+    private Integer heartRate;
 }

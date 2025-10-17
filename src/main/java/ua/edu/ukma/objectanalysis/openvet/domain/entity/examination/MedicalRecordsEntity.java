@@ -1,18 +1,24 @@
 package ua.edu.ukma.objectanalysis.openvet.domain.entity.examination;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.appointment.AppointmentEntity;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.pet.PetEntity;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Builder
@@ -24,43 +30,34 @@ import java.util.Set;
 public class MedicalRecordsEntity implements Identifiable<Long> {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "pet_id")
-    private PetEntity pet;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(optional = false)
     @JoinColumn(name = "appointment_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private AppointmentEntity appointment;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "veterinarian_id")
-    private VeterinarianEntity veterinarian;
-
-    @Column(length = 150)
+    @Column(name = "diagnosis", length = 150)
     private String diagnosis;
 
-    @Column(length = 300)
+    @Column(name = "treatment", length = 300)
     private String treatment;
 
-    @Column(length = 2000)
+    @Column(name = "notes", length = 2000)
     private String notes;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "vital_signs_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private VitalSignsEntity vitalSigns;
 
-    @OneToMany(mappedBy = "medicalRecord", fetch = FetchType.LAZY)
-    private Set<PrescriptionEntity> prescriptions = new HashSet<>();
+    @OneToMany(mappedBy = "medicalRecord")
+    private Set<PrescriptionEntity> prescriptions;
 
-    @OneToMany(mappedBy = "medicalRecord", fetch = FetchType.LAZY)
-    private Set<LabResultEntity> labResults = new HashSet<>();
-
-    LocalDate examinationDate;
-
-    LocalDateTime createdDate = LocalDateTime.now();
+    @OneToMany(mappedBy = "medicalRecord")
+    private Set<LabResultEntity> labResults;
 
     // TODO: follow up appointment?
 }

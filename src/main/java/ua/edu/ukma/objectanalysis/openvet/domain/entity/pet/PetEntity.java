@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
-import ua.edu.ukma.objectanalysis.openvet.domain.entity.examination.MedicalRecordsEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.PetOwnerEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.enums.PetSex;
 
@@ -66,7 +65,4 @@ public class PetEntity implements Identifiable<Long> {
 
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY)
     private List<VaccinationRecordEntity> vaccinationRecords = new ArrayList<>();
-
-    @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY)
-    private List<MedicalRecordsEntity> medicalRecords = new ArrayList<>();
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 
@@ -22,28 +24,33 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "schedules", uniqueConstraints =
-        @UniqueConstraint(columnNames = {"veterinarian_id", "dayOfWeek"})
+    @UniqueConstraint(columnNames = {"veterinarian_id", "day_of_week"})
 )
 public class ScheduleEntity implements Identifiable<Long> {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "veterinarian_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private VeterinarianEntity veterinarian;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "day_of_week", nullable = false)
     private DayOfWeek dayOfWeek;
 
-    @Column(nullable = false)
+    @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
 
-    @Column(nullable = false)
+    @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
 
+    @Column(name = "break_start_time")
     private LocalTime breakStartTime;
+
+    @Column(name = "break_end_time")
     private LocalTime breakEndTime;
 }

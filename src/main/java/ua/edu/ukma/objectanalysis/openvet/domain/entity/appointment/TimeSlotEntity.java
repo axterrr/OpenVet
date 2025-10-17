@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.enums.TimeSlotStatus;
@@ -24,29 +26,32 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "time_slots", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"veterinarian_id", "startTime"})
+    @UniqueConstraint(columnNames = {"veterinarian_id", "start_time"})
 })
 public class TimeSlotEntity implements Identifiable<Long> {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "veterinarian_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private VeterinarianEntity veterinarian;
 
-    @Column(nullable = false)
+    @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
-    @Column(nullable = false)
+    @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private TimeSlotStatus status;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "appointment_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private AppointmentEntity appointment;
 }

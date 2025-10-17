@@ -1,13 +1,20 @@
 package ua.edu.ukma.objectanalysis.openvet.domain.entity.examination;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
-
-import java.time.LocalDate;
 
 @Builder
 @Data
@@ -18,28 +25,27 @@ import java.time.LocalDate;
 public class PrescriptionEntity implements Identifiable<Long> {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "medical_record_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "medical_record_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MedicalRecordsEntity medicalRecord;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "medication_name", nullable = false, length = 100)
     private String medicationName;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "dosage", nullable = false, length = 50)
     private String dosage;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "frequency", nullable = false, length = 100)
     private String frequency;
 
-    @Column(length = 50)
+    @Column(name = "duration", length = 50)
     private String duration;
 
-    @Column(length = 500)
+    @Column(name = "instructions", length = 500)
     private String instructions;
-
-    @Column(nullable = false)
-    private LocalDate prescriptionDate;
 }
