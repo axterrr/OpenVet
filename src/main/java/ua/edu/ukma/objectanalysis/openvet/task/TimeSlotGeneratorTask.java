@@ -38,18 +38,6 @@ public class TimeSlotGeneratorTask {
             List<ScheduleEntity> schedulesForThatDay = scheduleRepository.findByDayOfWeek(thatDay);
 
             for (ScheduleEntity schedule : schedulesForThatDay) {
-                VeterinarianEntity veterinarian = schedule.getVeterinarian();
-
-                // If the veterinarian has already booked slots for this day, skip it.
-                // TODO: This is required, due to possibility of overlapping slots.
-                if (timeSlotRepository.existsByVeterinarianIdAndStartTimeBetween(
-                        veterinarian.getId(),
-                        targetDate.atTime(schedule.getStartTime()),
-                        targetDate.atTime(schedule.getEndTime())
-                )) {
-                    continue;
-                }
-
                 generateSlotsForSchedule(schedule, targetDate);
             }
         }
@@ -72,7 +60,7 @@ public class TimeSlotGeneratorTask {
             }
 
             // If the current slot is during the break, adjust the slot time to the break end time.
-            if (breakStartTime != null && !slotTime.isBefore(breakStartTime) && slotTime.isBefore(breakEndTime)) {
+            if (breakStartTime != null && breakEndTime != null && !slotTime.isBefore(breakStartTime) && slotTime.isBefore(breakEndTime)) {
                 slotTime = breakEndTime;
                 continue;
             }
@@ -91,8 +79,8 @@ public class TimeSlotGeneratorTask {
                 slotEndDateTime = LocalDateTime.of(date, nextSlotStartTime);
             }
 
-            // Prevent creating duplicate slots
-            if (!timeSlotRepository.existsByVeterinarianIdAndStartTime(veterinarian.getId(), slotStartDateTime)) {
+            // Skip creating the slot if it overlaps with any existing one for this veterinarian
+            if (!timeSlotRepository.existOverlaps(veterinarian.getId(), slotStartDateTime, slotEndDateTime)) {
                 TimeSlotEntity timeSlot = TimeSlotEntity.builder()
                         .veterinarian(veterinarian)
                         .startTime(slotStartDateTime)
@@ -102,9 +90,7 @@ public class TimeSlotGeneratorTask {
                 timeSlotRepository.save(timeSlot);
             }
 
-            // If the slot we just created ends exactly where a break begins,
-            // the next slot must start after the break ends.
-            if (slotEndDateTime.toLocalTime().equals(breakStartTime)) {
+            if (breakEndTime != null && slotEndDateTime.toLocalTime().equals(breakStartTime)) {
                 slotTime = breakEndTime;
             } else {
                 slotTime = nextSlotStartTime;
