@@ -16,14 +16,14 @@ public class UserMerger implements BaseMerger<UserEntity, UserRequest> {
 
     @Override
     public void mergeCreate(UserEntity entity, UserRequest request) {
-        if (request == null) { return; }
+        if (request == null || entity == null) { return; }
         commonMerge(entity, request);
         ifNotNull(request.getRole(), entity::setRole);
     }
 
     @Override
     public void mergeUpdate(UserEntity entity, UserRequest request) {
-        if (request == null) { return; }
+        if (request == null || entity == null) { return; }
         commonMerge(entity, request);
     }
 

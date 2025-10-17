@@ -134,7 +134,7 @@ public class PetController {
             .species(e.getSpecies())
             .breed(e.getBreed())
             .birthDate(e.getBirthDate())
-            .gender(e.getGender())
+            .sex(e.getSex())
             .color(e.getColor())
             .neutered(e.isNeutered())
             .microchipNumber(e.getMicrochipNumber())

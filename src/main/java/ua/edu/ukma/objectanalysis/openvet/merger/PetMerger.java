@@ -26,7 +26,7 @@ public class PetMerger implements BaseMerger<PetEntity, PetRequest> {
         ifNotNull(request.getSpecies(), entity::setSpecies);
         ifNotNull(request.getBreed(), entity::setBreed);
         ifNotNull(request.getBirthDate(), entity::setBirthDate);
-        ifNotNull(request.getGender(), entity::setGender);
+        ifNotNull(request.getSex(), entity::setSex);
         ifNotNull(request.getColor(), entity::setColor);
         ifNotNull(request.getNeutered(), entity::setNeutered);
         ifNotNull(request.getMicrochipNumber(), entity::setMicrochipNumber);

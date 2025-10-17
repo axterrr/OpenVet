@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.edu.ukma.objectanalysis.openvet.domain.enums.PetSex;
 
 import java.time.LocalDate;
 
@@ -26,7 +27,7 @@ public class PetRequest {
     @PastOrPresent(message = "Birth date cannot be in the future")
     private LocalDate birthDate;
 
-    private String gender;
+    private PetSex sex;
 
     private String color;
 
