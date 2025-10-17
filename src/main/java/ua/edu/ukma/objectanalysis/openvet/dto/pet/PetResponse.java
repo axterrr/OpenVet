@@ -1,0 +1,29 @@
+package ua.edu.ukma.objectanalysis.openvet.dto.pet;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class PetResponse {
+    private Long id;
+    private String name;
+    private String species;
+    private String breed;
+    private LocalDate birthDate;
+    private String gender;
+    private String color;
+    private boolean neutered;
+    private String microchipNumber;
+
+    private Long ownerId;
+    private String ownerPhone;
+    private String pendingOwnerPhone;
+}
+
