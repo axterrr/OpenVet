@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ScheduleRepository extends BaseRepository<ScheduleEntity, Long> {
-    Optional<ScheduleEntity> findByVeterinarianId(Long veterinarianId);
+    List<ScheduleEntity> findByVeterinarianId(Long veterinarianId);
     List<ScheduleEntity> findByDayOfWeek(DayOfWeek dayOfWeek);
-    List<ScheduleEntity> findByVeterinarianIdAndDayOfWeek(Long veterinarianId, DayOfWeek dayOfWeek);
+    Optional<ScheduleEntity> findByVeterinarianIdAndDayOfWeek(Long veterinarianId, DayOfWeek dayOfWeek);
+
+    boolean existsByVeterinarianIdAndDayOfWeek(Long veterinarianId, DayOfWeek dayOfWeek);
 }
