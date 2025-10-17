@@ -1,6 +1,6 @@
 package ua.edu.ukma.objectanalysis.openvet.domain.enums;
 
-public enum LabResultType {
+public enum LabTestType {
     BLOOD_TEST,          // аналіз крові
     URINE_TEST,          // аналіз сечі
     XRAY,                // рентген

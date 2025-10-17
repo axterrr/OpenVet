@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
-import ua.edu.ukma.objectanalysis.openvet.domain.enums.LabResultType;
+import ua.edu.ukma.objectanalysis.openvet.domain.enums.LabTestType;
 
 @Builder
 @Data
@@ -38,12 +38,12 @@ public class LabResultEntity implements Identifiable<Long> {
     private MedicalRecordsEntity medicalRecord;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "test_type", nullable = false, length = 100)
-    private LabResultType testType;
+    @Column(name = "test_type", nullable = false)
+    private LabTestType testType;
 
-    @Column(name = "result_details", nullable = false)
+    @Column(name = "result_details", nullable = false, length = 1000)
     private String resultDetails;
 
-    @Column(name = "notes", nullable = false)
+    @Column(name = "notes", length = 1000)
     private String notes;
 }

@@ -32,9 +32,6 @@ public class VitalSignsEntity implements Identifiable<Long> {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private MedicalRecordsEntity medicalRecord;
 
-    @Column(name = "value", nullable = false)
-    private String value;
-
     @Column(name = "respiration_rate")
     private Integer respiratoryRate;
 

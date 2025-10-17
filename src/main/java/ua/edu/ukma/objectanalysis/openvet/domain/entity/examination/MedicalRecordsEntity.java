@@ -39,7 +39,7 @@ public class MedicalRecordsEntity implements Identifiable<Long> {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private AppointmentEntity appointment;
 
-    @Column(name = "diagnosis", length = 150)
+    @Column(name = "diagnosis", length = 150, nullable = false)
     private String diagnosis;
 
     @Column(name = "treatment", length = 300)
