@@ -55,7 +55,7 @@ public class PetEntity implements Identifiable<Long> {
     private String microchipNumber;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private PetOwnerEntity owner;
 

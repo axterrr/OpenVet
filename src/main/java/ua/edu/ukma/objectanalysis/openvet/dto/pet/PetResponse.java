@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.edu.ukma.objectanalysis.openvet.domain.enums.PetSex;
 
 import java.time.LocalDate;
 
@@ -18,10 +17,13 @@ public class PetResponse {
     private String species;
     private String breed;
     private LocalDate birthDate;
-    private PetSex sex;
+    private String gender;
     private String color;
-    private Boolean neutered;
+    private boolean neutered;
     private String microchipNumber;
+
     private Long ownerId;
-    private Long pendingOwnerId;
+    private String ownerPhone;
+    private String pendingOwnerPhone;
 }
+
