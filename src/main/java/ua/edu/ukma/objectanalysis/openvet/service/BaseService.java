@@ -1,6 +1,5 @@
 package ua.edu.ukma.objectanalysis.openvet.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
 import ua.edu.ukma.objectanalysis.openvet.exception.NotFoundException;
@@ -14,14 +13,22 @@ import java.util.List;
 @Transactional
 public abstract class BaseService<ENTITY extends Identifiable<ID>, REQUEST, ID> {
 
-    @Autowired
     protected BaseRepository<ENTITY, ID> repository;
-    @Autowired
     protected BaseMerger<ENTITY, REQUEST> merger;
-    @Autowired
     protected BaseValidator<ENTITY, REQUEST> validator;
-    @Autowired
     protected BasePermissionValidator<ENTITY, REQUEST> permissionValidator;
+
+    protected BaseService(
+        BaseRepository<ENTITY, ID> repository,
+        BaseMerger<ENTITY, REQUEST> merger,
+        BaseValidator<ENTITY, REQUEST> validator,
+        BasePermissionValidator<ENTITY, REQUEST> permissionValidator
+    ) {
+        this.repository = repository;
+        this.merger = merger;
+        this.validator = validator;
+        this.permissionValidator = permissionValidator;
+    }
 
     protected abstract ENTITY newEntity();
 

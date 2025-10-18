@@ -1,6 +1,5 @@
 package ua.edu.ukma.objectanalysis.openvet.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.appointment.AppointmentEntity;
@@ -18,7 +17,6 @@ import java.util.List;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class AppointmentService extends BaseService<AppointmentEntity, AppointmentRequest, Long> {
 
     private final AppointmentRepository appointmentRepository;
@@ -26,6 +24,19 @@ public class AppointmentService extends BaseService<AppointmentEntity, Appointme
     private final AppointmentPermissionValidator permissionValidator;
     private final AppointmentValidator validator;
     private final AppointmentMerger merger;
+
+    public AppointmentService(
+        AppointmentRepository repository,
+        AppointmentPermissionValidator permissionValidator,
+        AppointmentValidator validator,
+        AppointmentMerger merger
+    ) {
+        super(repository, merger, validator, permissionValidator);
+        this.appointmentRepository = repository;
+        this.permissionValidator = permissionValidator;
+        this.validator = validator;
+        this.merger = merger;
+    }
 
     @Override
     protected AppointmentEntity newEntity() {

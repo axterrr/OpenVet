@@ -1,6 +1,5 @@
 package ua.edu.ukma.objectanalysis.openvet.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.appointment.AppointmentEntity;
@@ -9,12 +8,14 @@ import ua.edu.ukma.objectanalysis.openvet.domain.enums.TimeSlotStatus;
 import ua.edu.ukma.objectanalysis.openvet.dto.appointment.TimeSlotRequest;
 import ua.edu.ukma.objectanalysis.openvet.exception.ConflictException;
 import ua.edu.ukma.objectanalysis.openvet.exception.NotFoundException;
+import ua.edu.ukma.objectanalysis.openvet.merger.BaseMerger;
+import ua.edu.ukma.objectanalysis.openvet.repository.BaseRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.appointment.AppointmentRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.appointment.ScheduleRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.appointment.TimeSlotRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.user.VeterinarianRepository;
 import ua.edu.ukma.objectanalysis.openvet.task.TimeSlotGeneratorTask;
-import ua.edu.ukma.objectanalysis.openvet.validator.data.TimeSlotValidator;
+import ua.edu.ukma.objectanalysis.openvet.validator.data.BaseValidator;
 import ua.edu.ukma.objectanalysis.openvet.validator.permission.TimeSlotPermissionValidator;
 
 import java.time.LocalDateTime;
@@ -25,16 +26,31 @@ import java.util.List;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class TimeSlotService extends BaseService<TimeSlotEntity, TimeSlotRequest, Long> {
 
     private final TimeSlotRepository timeSlotRepository;
     private final AppointmentRepository appointmentRepository;
 
     private final TimeSlotPermissionValidator permissionValidator;
-    private final TimeSlotValidator validator;
     private final VeterinarianRepository veterinarianRepository;
     private final ScheduleRepository scheduleRepository;
+
+    public TimeSlotService(
+        BaseRepository<TimeSlotEntity, Long> repository,
+        BaseMerger<TimeSlotEntity, TimeSlotRequest> merger,
+        BaseValidator<TimeSlotEntity, TimeSlotRequest> validator,
+        TimeSlotRepository timeSlotRepository, AppointmentRepository appointmentRepository,
+        TimeSlotPermissionValidator permissionValidator,
+        VeterinarianRepository veterinarianRepository,
+        ScheduleRepository scheduleRepository
+    ) {
+        super(repository, merger, validator, permissionValidator);
+        this.timeSlotRepository = timeSlotRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.permissionValidator = permissionValidator;
+        this.veterinarianRepository = veterinarianRepository;
+        this.scheduleRepository = scheduleRepository;
+    }
 
     @Override
     protected TimeSlotEntity newEntity() {
@@ -140,7 +156,7 @@ public class TimeSlotService extends BaseService<TimeSlotEntity, TimeSlotRequest
         if (slot.getAppointment() != null && !slot.getAppointment().getId().equals(appt.getId())) {
             throw new ConflictException("Time slot already linked to a different appointment");
         }
-        
+
         slot.setAppointment(appt);
         slot.setStatus(TimeSlotStatus.BOOKED);
         appt.setTimeSlot(slot);

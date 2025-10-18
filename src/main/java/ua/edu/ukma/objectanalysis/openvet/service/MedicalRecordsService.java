@@ -1,22 +1,37 @@
 package ua.edu.ukma.objectanalysis.openvet.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.examination.MedicalRecordsEntity;
 import ua.edu.ukma.objectanalysis.openvet.dto.examination.MedicalRecordsRequest;
+import ua.edu.ukma.objectanalysis.openvet.merger.BaseMerger;
+import ua.edu.ukma.objectanalysis.openvet.repository.BaseRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.examination.MedicalRecordsRepository;
+import ua.edu.ukma.objectanalysis.openvet.validator.data.BaseValidator;
+import ua.edu.ukma.objectanalysis.openvet.validator.permission.BasePermissionValidator;
 import ua.edu.ukma.objectanalysis.openvet.validator.permission.MedicalRecordsPermissionValidator;
 
 import java.util.List;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class MedicalRecordsService extends BaseService<MedicalRecordsEntity, MedicalRecordsRequest, Long> {
 
     private final MedicalRecordsRepository medicalRecordsRepository;
     private final MedicalRecordsPermissionValidator medicalPermissionValidator;
+
+    public MedicalRecordsService(
+        BaseRepository<MedicalRecordsEntity, Long> repository,
+        BaseMerger<MedicalRecordsEntity, MedicalRecordsRequest> merger,
+        BaseValidator<MedicalRecordsEntity, MedicalRecordsRequest> validator,
+        BasePermissionValidator<MedicalRecordsEntity, MedicalRecordsRequest> permissionValidator,
+        MedicalRecordsRepository medicalRecordsRepository,
+        MedicalRecordsPermissionValidator medicalPermissionValidator
+    ) {
+        super(repository, merger, validator, permissionValidator);
+        this.medicalRecordsRepository = medicalRecordsRepository;
+        this.medicalPermissionValidator = medicalPermissionValidator;
+    }
 
     @Override
     protected MedicalRecordsEntity newEntity() {

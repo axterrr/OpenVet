@@ -1,6 +1,5 @@
 package ua.edu.ukma.objectanalysis.openvet.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -14,12 +13,14 @@ import ua.edu.ukma.objectanalysis.openvet.domain.entity.user.VeterinarianEntity;
 import ua.edu.ukma.objectanalysis.openvet.dto.pet.PetRequest;
 import ua.edu.ukma.objectanalysis.openvet.dto.pet.VaccinationRecordRequest;
 import ua.edu.ukma.objectanalysis.openvet.exception.NotFoundException;
+import ua.edu.ukma.objectanalysis.openvet.merger.PetMerger;
 import ua.edu.ukma.objectanalysis.openvet.repository.pet.PendingOwnerRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.pet.PetRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.pet.VaccinationRecordRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.user.PetOwnerRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.user.UserRepository;
 import ua.edu.ukma.objectanalysis.openvet.repository.user.VeterinarianRepository;
+import ua.edu.ukma.objectanalysis.openvet.validator.data.PetValidator;
 import ua.edu.ukma.objectanalysis.openvet.validator.permission.PetPermissionValidator;
 
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ import java.util.Optional;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class PetService extends BaseService<PetEntity, PetRequest, Long> {
 
     private final PetRepository petRepository;
@@ -39,6 +39,27 @@ public class PetService extends BaseService<PetEntity, PetRequest, Long> {
     private final UserRepository userRepository;
 
     private final PetPermissionValidator petPermissionValidator;
+
+    public PetService(
+        PetRepository petRepository,
+        PetOwnerRepository petOwnerRepository,
+        PendingOwnerRepository pendingOwnerRepository,
+        VaccinationRecordRepository vaccinationRecordRepository,
+        VeterinarianRepository veterinarianRepository,
+        UserRepository userRepository,
+        PetPermissionValidator petPermissionValidator,
+        PetMerger merger,
+        PetValidator validator
+    ) {
+        super(petRepository, merger, validator, petPermissionValidator);
+        this.petRepository = petRepository;
+        this.petOwnerRepository = petOwnerRepository;
+        this.pendingOwnerRepository = pendingOwnerRepository;
+        this.vaccinationRecordRepository = vaccinationRecordRepository;
+        this.veterinarianRepository = veterinarianRepository;
+        this.userRepository = userRepository;
+        this.petPermissionValidator = petPermissionValidator;
+    }
 
     @Override
     protected PetEntity newEntity() {
