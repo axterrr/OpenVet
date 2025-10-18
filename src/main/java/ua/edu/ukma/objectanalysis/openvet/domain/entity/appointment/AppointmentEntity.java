@@ -21,6 +21,7 @@ import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.Identifiable;
+import ua.edu.ukma.objectanalysis.openvet.domain.entity.billing.BillingEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.examination.MedicalRecordsEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.pet.PetEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.enums.AppointmentStatus;
@@ -69,4 +70,8 @@ public class AppointmentEntity implements Identifiable<Long> {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "appointment")
     private Set<MedicalRecordsEntity> medicalRecords;
+
+    @OneToOne(mappedBy = "appointment")
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    private BillingEntity billing;
 }

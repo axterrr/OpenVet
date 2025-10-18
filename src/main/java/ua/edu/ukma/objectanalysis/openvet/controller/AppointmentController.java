@@ -115,6 +115,7 @@ public class AppointmentController {
             .reasonForVisit(e.getReasonForVisit())
             .status(e.getStatus())
             .notes(e.getNotes())
+            .billingId(e.getBilling() != null ? e.getBilling().getId() : null)
             .build();
     }
 }

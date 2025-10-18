@@ -22,5 +22,6 @@ public class AppointmentResponse {
     private String reasonForVisit;
     private AppointmentStatus status;
     private String notes;
+    private Long billingId;
 }
 
