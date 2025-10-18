@@ -46,7 +46,7 @@ public class UserPermissionValidator extends BasePermissionValidator<UserEntity,
     @Override
     public void validateForUpdate(UserEntity entity) {
         if (isAuthenticatedUserAdmin()) {
-            require(entity.getRole() == UserRole.VETERINARIAN);
+            return;
         }
         requireUserEmail(entity.getEmail());
     }

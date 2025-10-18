@@ -1,5 +1,6 @@
 package ua.edu.ukma.objectanalysis.openvet.validator.permission;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.appointment.AppointmentEntity;
 import ua.edu.ukma.objectanalysis.openvet.domain.entity.appointment.TimeSlotEntity;
@@ -9,9 +10,10 @@ import ua.edu.ukma.objectanalysis.openvet.dto.appointment.TimeSlotRequest;
 import ua.edu.ukma.objectanalysis.openvet.repository.user.UserRepository;
 
 @Component
+@RequiredArgsConstructor
 public class TimeSlotPermissionValidator extends BasePermissionValidator<TimeSlotEntity, TimeSlotRequest> {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void validateForGetAll() {
@@ -37,7 +39,7 @@ public class TimeSlotPermissionValidator extends BasePermissionValidator<TimeSlo
 
     @Override
     public void validateForCreate(TimeSlotRequest request) {
-        require(isAuthenticatedUserAdmin());
+        if (isAuthenticatedUserAdmin()) { return; }
         if (isAuthenticatedUserVeterinarian()) {
             require(request.getVeterinarianId() != null);
             UserEntity me = getAuthenticatedUser();
